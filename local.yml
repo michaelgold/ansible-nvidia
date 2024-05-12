@@ -48,6 +48,27 @@
         apt-get update && sudo apt-get install -y nvidia-container-toolkit
         systemctl restart docker
 
+    - name: Set NVIDIA as the default Docker runtime
+      copy:
+        dest: /etc/docker/daemon.json
+        content: |
+          {
+            "runtimes": {
+              "nvidia": {
+                "path": "nvidia-container-runtime",
+                "runtimeArgs": []
+              }
+            },
+            "default-runtime": "nvidia"
+          }
+        force: yes
+        backup: yes
+
+    - name: Restart Docker service to apply new configuration
+      systemd:
+        name: docker
+        state: restarted
+
     - name: Install Portainer
       docker_container:
         name: portainer
