@@ -14,7 +14,7 @@
         - ubuntu-drivers-common
 
     - name: Detect and install the best match NVIDIA driver
-      command: ubuntu-drivers install
+      command: ubuntu-drivers autoinstall
       args:
         executable: /bin/bash
 
